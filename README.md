@@ -19,18 +19,18 @@ As of commit `bdb53ac` (and tag `2.12.0`, `2.11.0`, etc.) from the original repo
 
 Tracing that 2021 timeline back against the [Python support matrix](https://endoflife.date/python), it appears likely that the last time the Dockerfile was tested the base image `python:3` would have referred to Python v3.10 (or even v3.9).
 
-As such, attempting to work around the broken image build by using base image `python:3.10`.
+As such, attempting to work around the broken image build by using base image `python:3.10`. Using this approach fixes the build.
 
 ### Broken service startup
 
-After resolving the base image problem, the service fails to start due to being unable to find a password file (per container logs). Attempted to address this issue by referring to documentation in [TabPy server configuration instructions](./docs/server-config.md). Workaround:
+After resolving the Dockerfile base image problem, the next problem is with the container at runtime. The TabPy service fails to start due to being unable to find a password file (per container logs). Attempted to address this issue by referring to documentation in [TabPy server configuration instructions](./docs/server-config.md). Workaround:
 * Generated and committed `password-file.txt`, per the above instructions. [^not_secret]
 * Added new `ENV` and `COPY` instructions to the Dockerfile.
 
 [^not_secret]:
     The credentials in `password-file.txt` are not sensitive as they are **not** real secrets. As such, they should not be used in any live environment.
 
-This workaround resolved the problem with the password file not being found. However, there is a new problem (observed in container logs) with the service getting an HTTP 401. This needs to be investigated further, possibly in the TabPy Python code.
+This workaround resolved the problem with the password file not being found. However, there is a new problem (observed in container logs) with the TabPy service getting an HTTP 401. This needs to be investigated further, possibly in the TabPy Python code.
 
 ******
 
