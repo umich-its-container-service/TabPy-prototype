@@ -12,10 +12,12 @@ Attempting to build a TabPy image with Podman, then run and test a container fro
 
 As of commit `bdb53ac` (and tag `2.12.0`, `2.11.0`, etc.) from the original repo, an image does not build successfully from the Dockerfile. Root cause and workaround:
 * The Dockerfile uses base image `python:3` which (as of this writing) refers to Python v3.13.
-* Attempts to build the image result in errors the `cmake` package not being found. Installing `cmake` does not resolve this. The next problem is related to the Arow library, which is not trivial to resolve.
+* Attempts to build the image results in errors that the `cmake` package is not found.
+* Installing `cmake` with apt resolves this; but the image still does not build.
+* The next problem is related to the Python Arrow library, which is not trivial to resolve.
 * Notably, in the original repo, the Dockerfile and associated start.sh script have not been modified since Aug. 2021 (commit `9b13f67`).
 
-Tracing that timeline back against the [Python support matrix](https://endoflife.date/python), it appears likely that the last time the Dockerfile was tested the base image `python:3` would have referred to Python v3.10 (or even v3.9).
+Tracing that 2021 timeline back against the [Python support matrix](https://endoflife.date/python), it appears likely that the last time the Dockerfile was tested the base image `python:3` would have referred to Python v3.10 (or even v3.9).
 
 As such, attempting to work around the broken image build by using base image `python:3.10`.
 
