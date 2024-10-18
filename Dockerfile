@@ -8,7 +8,8 @@ RUN python3 -m pip install --upgrade pip \
     python3 -m pip install --upgrade tabpy
 
 # copy files needed by container
-COPY ./password-file.txt ./start.sh /
+COPY ./start.sh /
+COPY ./password-file.txt ./
 
 # set environment variables
 ENV TABPY_PWD_FILE="/app/password-file.txt"
