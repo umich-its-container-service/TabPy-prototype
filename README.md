@@ -24,7 +24,7 @@ Modifying `FROM` in the Dockerfile to use base image `python:3.10` results in a 
 ### Broken service startup
 
 After resolving the Dockerfile base image problem, the next problem is with the container at runtime. The TabPy service fails to start due to being unable to find a password file (per container logs). Attempted to address this issue by referring to documentation in [TabPy server configuration instructions](./docs/server-config.md). Workaround:
-* Generated and committed `password-file.txt`, per the above instructions. [^not_secret]
+* Generated and committed `password-file.txt`, by running the command: `tabpy-user add -u someguy -p fake.secret.fxAuibc0Ru -f password-file.txt` [^not_secret]
 * Added new `ENV` and `COPY` instructions to the Dockerfile.
 
 [^not_secret]:
