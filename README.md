@@ -1,6 +1,6 @@
 # TabPy prototype
 
-NB: This README section contains notes for the ITS containerized TabPy prototype. The original README (from the [original TabPy repo](https://github.com/tableau/TabPy)) begins further down the page, as annotated.
+This README section contains notes for the ITS containerized TabPy prototype. The original README (from the [original TabPy repo](https://github.com/tableau/TabPy)) begins further down the page, as annotated.
 
 ## Overview
 
