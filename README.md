@@ -4,7 +4,7 @@ NB: This README section contains notes for the ITS containerized TabPy prototype
 
 ## Overview
 
-Attempting to build a TabPy image with Podman, then run and test its a container from that image.
+Attempting to build a TabPy image with Podman, then run and test a container from that image.
 
 ## Various problems
 
