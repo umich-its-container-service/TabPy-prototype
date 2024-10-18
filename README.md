@@ -19,7 +19,7 @@ As of commit `bdb53ac` (and tag `2.12.0`, `2.11.0`, etc.) from the original repo
 
 Tracing that 2021 timeline back against the [Python support matrix](https://endoflife.date/python), it appears likely that the last time the Dockerfile was tested the base image `python:3` would have referred to Python v3.10 (or even v3.9).
 
-As such, attempting to work around the broken image build by using base image `python:3.10`. Using this approach fixes the build.
+Modifying `FROM` in the Dockerfile to use base image `python:3.10` results in a successful image build.
 
 ### Broken service startup
 
