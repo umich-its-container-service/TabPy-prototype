@@ -34,7 +34,37 @@ This workaround resolved the problem with the password file not being found. How
 
 ### Broken config detection
 
-In an attempt to resolve the HTTP 401 at TabPy service startup, a custom configuration file was added as `its-configs/custom.conf`. It is being fed to the TabPy service (per [TabPy server configuration instructions](./docs/server-config.md)) using the --config option. But TabPy is ignoring it and instead reading the default configuration.
+In an attempt to resolve the HTTP 401 at TabPy service startup, a custom configuration file was added as `its-configs/custom.conf`. It is being fed to the TabPy service (per [TabPy server configuration instructions](./docs/server-config.md)) using the `--config` option in the Dockerfile. But TabPy is ignoring it and instead reading the default configuration.
+
+## Ongoing broken authentication
+
+Was able to work around the broken config detection by completely removing the TabPy service call in the Dockerfile, and instead adding the `--config` option to `start.sh`. Now the containers logs show the custom config is being read:
+
+```
+2024-10-24T10:15:29.294378000-04:00 Waiting for tabpy server
+2024-10-24T10:15:29.905754000-04:00 2024-10-24,14:15:29 [INFO] (app.py:app:316): Parsing config file /its-configs/custom.conf
+2024-10-24T10:15:29.908729000-04:00 2024-10-24,14:15:29 [INFO] (util.py:util:51): Parsing passwords file /its-configs/password-file.txt...
+2024-10-24T10:15:29.909239000-04:00 2024-10-24,14:15:29 [INFO] (util.py:util:87): Authentication is enabled
+```
+
+However, even with this custom configuration (which supplies the custom password file and enables authentication), the HTTP 401 persists:
+
+```
+2024-10-24T10:15:32.310226000-04:00 2024-10-24,14:15:32 [INFO] (web.py:web:2348): 200 HEAD / (127.0.0.1) 3.83ms
+2024-10-24T10:15:33.049729000-04:00 2024-10-24,14:15:33 [INFO] (base_handler.py:base_handler:115): Authorization header not found
+2024-10-24T10:15:33.050031000-04:00 2024-10-24,14:15:33 [ERROR] (base_handler.py: base_handler:115): Failing with 401 for unauthorized request
+2024-10-24T10:15:33.050248000-04:00 2024-10-24,14:15:33 [ERROR] (base_handler.py: base_handler:115): Responding with status=401, message="Invalid credentials provided.", info="Unauthorized request."
+```
+
+It is not clear how to feed authentication credentials to the Python programs named above.
+
+Despite the HTTP 401 error logging, the TabPy service continues running, with this command appearing in the container process table:
+
+```
+/usr/local/bin/python3 /usr/local/bin/tabpy --config=/its-configs/custom.conf
+```
+
+Unsure how to proceed from here.
 
 ******
 
