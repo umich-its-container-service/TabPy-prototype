@@ -1,6 +1,6 @@
 FROM python:3.10
 
-WORKDIR /app
+WORKDIR "/app"
 
 # install the latest TabPy
 RUN python3 -m pip install --upgrade pip \
@@ -9,13 +9,17 @@ RUN python3 -m pip install --upgrade pip \
 
 # copy files needed by container
 COPY ./start.sh /
-COPY ./password-file.txt ./
+COPY ./its-configs/ /its-configs/
 
 # set environment variables
-ENV TABPY_PWD_FILE="/app/password-file.txt"
+#
+# NB: it appears that the TABPY_PWD_FILE var must be set both
+# in the environment, and in the custom.conf file. Omitting it
+# from either causes errors.
+ENV TABPY_PWD_FILE="/its-configs/password-file.txt"
 
 # start TabPy
-CMD ["sh", "-c", "tabpy"]
+CMD ["sh", "-c", "tabpy", "--config=/its-configs/custom.conf"]
 
 # run startup script
 RUN chmod +x /start.sh

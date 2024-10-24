@@ -32,6 +32,10 @@ After resolving the Dockerfile base image problem, the next problem is with the 
 
 This workaround resolved the problem with the password file not being found. However, there is a new problem (observed in container logs) with the TabPy service getting an HTTP 401. This needs to be investigated further, possibly in the TabPy Python code.
 
+### Broken config detection
+
+In an attempt to resolve the HTTP 401 at TabPy service startup, a custom configuration file was added as `its-configs/custom.conf`. It is being fed to the TabPy service (per [TabPy server configuration instructions](./docs/server-config.md)) using the --config option. But TabPy is ignoring it and instead reading the default configuration.
+
 ******
 
 Original README notes below
