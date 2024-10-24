@@ -36,7 +36,7 @@ This workaround resolved the problem with the password file not being found. How
 
 In an attempt to resolve the HTTP 401 at TabPy service startup, a custom configuration file was added as `its-configs/custom.conf`. It is being fed to the TabPy service (per [TabPy server configuration instructions](./docs/server-config.md)) using the `--config` option in the Dockerfile. But TabPy is ignoring it and instead reading the default configuration.
 
-## Ongoing broken authentication
+### Ongoing broken authentication
 
 Was able to work around the broken config detection by completely removing the TabPy service call in the Dockerfile, and instead adding the `--config` option to `start.sh`. Now the containers logs show the custom config is being read:
 
