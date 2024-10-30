@@ -3,9 +3,9 @@ FROM python:3.10
 WORKDIR "/app"
 
 # install the latest TabPy
-RUN python3 -m pip install --upgrade pip \
+RUN pip install --upgrade pip \
     && \
-    python3 -m pip install --upgrade tabpy
+    pip install 'tabpy==2.12'
 
 # copy files needed by container
 COPY ./start.sh /
